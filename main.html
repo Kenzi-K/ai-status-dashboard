@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Music - UI Mock</title>
+  <title>Music - Base44 UI Mock</title>
   <style>
     :root{
       --canvas:#060606;
@@ -32,16 +32,20 @@
       color:var(--text);
       font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;
       letter-spacing:.01em;
-      overflow:hidden;
+      overflow:auto;
     }
 
     .app{
-      height:100vh;
-      padding:14px;
+      min-height:100vh;
+      width:100%;
+      padding:clamp(8px,1vw,14px);
       display:grid;
-      grid-template-columns:260px minmax(560px,1fr) 560px;
-      grid-template-rows:1fr 116px;
-      gap:14px;
+      grid-template-columns:
+        clamp(180px,15vw,230px)
+        minmax(420px,1fr)
+        clamp(300px,24vw,380px);
+      grid-template-rows:minmax(0,1fr) 106px;
+      gap:clamp(8px,1vw,14px);
     }
 
     .panel{
@@ -53,23 +57,25 @@
 
     .sidebar{
       grid-row:1 / span 1;
-      padding:24px 18px;
+      padding:18px 12px;
       display:flex;
       flex-direction:column;
-      gap:18px;
+      gap:12px;
+      min-width:0;
+      overflow:hidden;
     }
 
     .brand{
       display:flex;
       align-items:center;
       gap:12px;
-      font-size:23px;
+      font-size:19px;
       font-weight:700;
       margin-bottom:8px;
     }
     .brand small{font-size:15px;font-weight:500;color:var(--rose)}
     .logo{
-      width:34px;height:34px;
+      width:30px;height:30px;
       display:grid;
       grid-template-columns:repeat(5,4px);
       gap:3px;
@@ -89,12 +95,12 @@
     .divider{height:1px;background:var(--line-soft);margin:4px 0}
 
     .nav-item{
-      height:44px;
-      display:flex;align-items:center;gap:14px;
+      height:38px;
+      display:flex;align-items:center;gap:10px;
       padding:0 12px;
       border-radius:9px;
       color:var(--rose);
-      font-size:16px;
+      font-size:14px;
     }
     .nav-item.active{
       background:linear-gradient(90deg,rgba(217,161,132,.16),rgba(255,255,255,.04));
@@ -107,7 +113,7 @@
       color:var(--text);
     }
     .avatar{
-      width:46px;height:46px;border-radius:50%;
+      width:38px;height:38px;border-radius:50%;
       background:linear-gradient(145deg,#e3c1ae,#161616 48%,#6a4b3d);
       border:1px solid var(--line);
       box-shadow:inset 0 0 18px rgba(0,0,0,.7);
@@ -130,7 +136,7 @@
     }
     .lv1{background:#2a211d}.lv2{background:#5c3f33}.lv3{background:#9f6e58}.lv4{background:#d9a184}
 
-    .main,.right{display:flex;flex-direction:column;gap:12px;min-height:0}
+    .main,.right{display:flex;flex-direction:column;gap:10px;min-height:0;min-width:0;overflow:hidden}
     .card{
       background:linear-gradient(180deg,rgba(31,27,24,.98),rgba(14,14,14,.98));
       border:1px solid var(--line);
@@ -143,15 +149,16 @@
     }
 
     .now{
-      height:218px;
-      padding:16px 22px;
+      height:170px;
+      padding:14px 16px;
       display:grid;
-      grid-template-columns:184px 1fr;
-      gap:24px;
+      grid-template-columns:132px minmax(0,1fr);
+      gap:16px;
       align-items:center;
+      min-width:0;
     }
     .cover{
-      width:184px;height:158px;border-radius:11px;border:1px solid var(--line);
+      width:132px;height:132px;border-radius:11px;border:1px solid var(--line);
       background:
         radial-gradient(circle at 50% 30%,rgba(217,161,132,.35),transparent 7%),
         linear-gradient(180deg,#111c25,#050505 58%),
@@ -164,30 +171,31 @@
       background:linear-gradient(170deg,transparent 30%,rgba(217,161,132,.35) 31%,transparent 34%),
                  linear-gradient(190deg,transparent 40%,rgba(255,255,255,.14) 41%,transparent 43%);
     }
-    .now h1{font-size:34px;margin:14px 0;color:var(--rose);font-weight:700}
+    .now h1{font-size:clamp(22px,2.1vw,30px);margin:10px 0;color:var(--rose);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .meta{color:var(--rose-2);font-size:15px}
     .seek{height:4px;background:#2b2928;border-radius:99px;margin-top:20px;position:relative}
     .seek:before{content:"";position:absolute;width:22%;height:100%;background:var(--rose);border-radius:99px}
     .seek:after{content:"";position:absolute;left:22%;top:50%;width:11px;height:11px;border-radius:50%;background:var(--rose);transform:translate(-50%,-50%)}
 
     .audio-info{
-      height:108px;
+      height:88px;
       display:grid;grid-template-columns:1fr 1fr;align-items:center;
-      padding:20px 42px;gap:24px;
+      padding:14px 20px;gap:14px;
+      min-width:0;
     }
     .info-block{display:flex;gap:22px;align-items:center}
-    .info-block + .info-block{border-left:1px solid var(--line-soft);padding-left:38px}
-    .info-icon{font-size:28px}
+    .info-block + .info-block{border-left:1px solid var(--line-soft);padding-left:18px}
+    .info-icon{font-size:22px}
     .label{font-size:12px;color:var(--rose);text-transform:uppercase}
-    .value{font-size:16px;margin-top:6px;color:var(--text)}
+    .value{font-size:14px;margin-top:6px;color:var(--text)}
 
     .artists{flex:1;min-height:0;padding:12px 12px 14px}
     .artist-grid{
       height:100%;
       display:grid;
-      grid-template-columns:repeat(5,1fr);
-      grid-template-rows:repeat(2,1fr);
-      gap:10px;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      grid-template-rows:repeat(2,minmax(0,1fr));
+      gap:9px;
     }
     .artist{
       background:linear-gradient(180deg,rgba(43,37,33,.98),rgba(17,17,17,.98));
@@ -198,7 +206,7 @@
       transform:translateY(-1px);
     }
     .portrait{
-      width:92px;height:92px;border-radius:50%;
+      width:clamp(56px,5.2vw,78px);height:clamp(56px,5.2vw,78px);border-radius:50%;
       border:1px solid rgba(217,161,132,.25);
       background:
         radial-gradient(circle at 45% 30%,rgba(255,221,205,.55),transparent 8%),
@@ -209,8 +217,8 @@
     }
     .artist:nth-child(2n) .portrait{background:radial-gradient(circle at 50% 25%,rgba(238,191,169,.45),transparent 8%),linear-gradient(140deg,#262626,#0b0b0b 46%,#6a4838)}
     .artist:nth-child(3n) .portrait{background:radial-gradient(circle at 50% 36%,rgba(217,161,132,.55),transparent 9%),linear-gradient(150deg,#111,#1b2630 45%,#51372e)}
-    .artist strong{font-size:15px;color:var(--text)}
-    .artist small{color:var(--muted);margin-top:6px}
+    .artist strong{font-size:13px;color:var(--text);white-space:nowrap;max-width:95%;overflow:hidden;text-overflow:ellipsis}
+    .artist small{color:var(--muted);margin-top:5px;font-size:11px;white-space:nowrap;max-width:95%;overflow:hidden;text-overflow:ellipsis}
 
     .engine{
       height:46px;padding:0 18px;display:flex;align-items:center;gap:22px;
@@ -218,9 +226,9 @@
     }
     .dot{width:10px;height:10px;background:var(--rose);border-radius:50%;display:inline-block;margin-right:7px}
 
-    .wave{height:218px;padding:16px 20px}
+    .wave{height:180px;padding:14px 14px;flex:0 0 auto;overflow:hidden}
     .bars{
-      height:104px;display:flex;align-items:center;gap:3px;margin-top:22px;
+      height:82px;display:flex;align-items:center;gap:2px;margin-top:18px;overflow:hidden;
       border-bottom:1px solid transparent;
     }
     .bar{
@@ -228,10 +236,10 @@
       opacity:.95;
       height:calc(18px + var(--h) * 1px);
     }
-    .queue,.top{flex:1;padding:10px 12px;min-height:0}
+    .queue,.top{flex:1 1 0;padding:8px 10px;min-height:0;overflow:hidden}
     .track{
-      display:grid;grid-template-columns:34px 42px 1fr 48px 18px;align-items:center;
-      gap:10px;height:49px;padding:0 8px;border-radius:8px;color:var(--rose);
+      display:grid;grid-template-columns:20px 32px minmax(0,1fr) 40px 10px;align-items:center;
+      gap:8px;height:43px;padding:0 6px;border-radius:8px;color:var(--rose);
       border-bottom:1px solid var(--line-soft);
     }
     .track.active{
@@ -239,53 +247,68 @@
       border:1px solid rgba(217,161,132,.22);
     }
     .thumb{
-      width:36px;height:36px;border-radius:5px;background:linear-gradient(135deg,#111d27,#6d4939);
+      width:30px;height:30px;border-radius:5px;background:linear-gradient(135deg,#111d27,#6d4939);
       border:1px solid var(--line-soft);
     }
-    .track strong{font-size:14px}
-    .track small{display:block;color:var(--muted);margin-top:3px}
-    .time{font-size:14px;text-align:right}
+    .track strong{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+    .track small{display:block;color:var(--muted);margin-top:2px;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .time{font-size:12px;text-align:right}
 
     .player{
       grid-column:1 / -1;
       display:grid;
-      grid-template-columns:360px 1fr 360px;
+      grid-template-columns:280px minmax(360px,1fr) 260px;
       align-items:center;
-      padding:14px 24px;
+      padding:12px 18px;
       background:linear-gradient(180deg,rgba(24,21,19,.98),rgba(10,10,10,.98));
+      min-width:0;
     }
     .mini{display:flex;align-items:center;gap:16px}
-    .mini-cover{width:74px;height:74px;border-radius:8px;background:linear-gradient(135deg,#121d27,#6b4638);border:1px solid var(--line)}
+    .mini-cover{width:64px;height:64px;border-radius:8px;background:linear-gradient(135deg,#121d27,#6b4638);border:1px solid var(--line)}
     .mini strong{display:block;font-size:16px}
     .mini span{display:block;color:var(--muted);margin-top:6px;font-size:13px}
     .controls{text-align:center}
-    .buttons{display:flex;justify-content:center;align-items:center;gap:34px;font-size:24px}
+    .buttons{display:flex;justify-content:center;align-items:center;gap:26px;font-size:21px}
     .play{
-      width:56px;height:56px;border-radius:50%;display:grid;place-items:center;
+      width:48px;height:48px;border-radius:50%;display:grid;place-items:center;
       background:linear-gradient(145deg,#f0b89e,#a86f59);
       color:#17100d;box-shadow:0 10px 30px rgba(217,161,132,.18);
       font-weight:900;
     }
     .meter{display:flex;justify-content:center;gap:4px;margin-top:16px}
     .meter span{width:5px;height:18px;border-radius:4px;background:linear-gradient(#f4c3ad,#7e5446);opacity:.85}
-    .right-control{display:flex;align-items:center;justify-content:flex-end;gap:22px;font-size:24px}
-    .volume{width:170px;height:4px;background:#2c2a29;border-radius:99px;position:relative}
+    .right-control{display:flex;align-items:center;justify-content:flex-end;gap:14px;font-size:20px;min-width:0}
+    .volume{width:120px;height:4px;background:#2c2a29;border-radius:99px;position:relative}
     .volume:before{content:"";position:absolute;width:62%;height:100%;background:var(--rose);border-radius:99px}
     .volume:after{content:"";position:absolute;left:62%;top:50%;width:13px;height:13px;border-radius:50%;background:var(--rose);transform:translate(-50%,-50%)}
 
-    @media (max-width:1200px){
-      body{overflow:auto}
-      .app{height:auto;grid-template-columns:220px 1fr;grid-template-rows:auto auto auto}
-      .right{grid-column:1 / -1;display:grid;grid-template-columns:1fr 1fr}
-      .player{grid-template-columns:1fr}
-      .artist-grid{grid-template-columns:repeat(3,1fr)}
+    @media (max-width:980px){
+      .app{
+        grid-template-columns:1fr;
+        grid-template-rows:auto auto auto auto;
+      }
+      .sidebar,.main,.right,.player{grid-column:1}
+      .sidebar{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+      .brand{grid-column:1 / -1}
+      .right{display:flex}
+      .artist-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+      .player{grid-template-columns:1fr;gap:12px}
+      .right-control{justify-content:center}
+    }
+
+    @media (max-width:620px){
+      .now{grid-template-columns:1fr;height:auto;text-align:center}
+      .cover{margin:auto}
+      .audio-info{grid-template-columns:1fr;height:auto}
+      .info-block + .info-block{border-left:0;padding-left:0}
+      .sidebar{display:flex}
     }
   </style>
 </head>
 <body>
   <div class="app">
     <aside class="panel sidebar">
-      <div class="brand"><div class="logo"><span></span><span></span><span></span><span></span><span></span></div>Music <small>Player</small></div>
+      <div class="brand"><div class="logo"><span></span><span></span><span></span><span></span><span></span></div>Music <small>- Base44</small></div>
       <div class="divider"></div>
       <div>
         <div class="section-title">Menu</div>
@@ -304,7 +327,7 @@
       <div class="divider"></div>
       <div>
         <div class="section-title">Account</div>
-        <div class="account"><div class="avatar"></div><div>Hi, Kenzi<small>Premium Plan</small></div></div>
+        <div class="account"><div class="avatar"></div><div>Hi, Base44<small>Premium Plan</small></div></div>
       </div>
       <div class="divider"></div>
       <div>
@@ -349,8 +372,6 @@
           <div class="artist"><div class="portrait"></div><strong>Tycho</strong><small>Ambient</small></div>
           <div class="artist"><div class="portrait"></div><strong>Erykah Badu</strong><small>Neo Soul</small></div>
           <div class="artist"><div class="portrait"></div><strong>Coldplay</strong><small>Alternative</small></div>
-          <div class="artist"><div class="portrait"></div><strong>Tatsuro Yamashita</strong><small>City Pop</small></div>
-          <div class="artist"><div class="portrait"></div><strong>John Coltrane</strong><small>Jazz</small></div>
         </div>
       </section>
 
@@ -367,7 +388,7 @@
         <div class="section-title">Audio Waveform</div>
         <div class="bars">
           <script>
-            for(let i=0;i<100;i++){
+            for(let i=0;i<72;i++){
               const h = 8 + Math.abs(Math.sin(i*.23)*48) + Math.random()*18;
               document.write(`<div class="bar" style="--h:${h.toFixed(0)}"></div>`);
             }
